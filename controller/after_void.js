@@ -8,7 +8,7 @@ var afterVoid = function () {
       if (error) {
         return res.status(500).send(error);
       }
-      res.status(200);
+      res.status(200).send();
     });
   });
   return router;
