@@ -11,26 +11,27 @@ const package = require('./controller/packages');
 const afterProcess = require('./controller/after_process');
 const afterVoid = require('./controller/after_void');
 
-function createWindow() {
-  console.log(path.join(__dirname, 'preload.js'));
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, './preload.js'),
-    },
-  });
+// function createWindow() {
+//   const win = new BrowserWindow({
+//     width: 800,
+//     height: 600,
+//     webPreferences: {
+//       preload: path.join(__dirname, 'preload.js'),
+//     },
+//   });
 
-  win.loadFile('index.html');
-}
+//   win.loadFile('index.html');
+// }
 
-app.whenReady().then(() => {
-  createWindow();
-});
+// app.whenReady().then(() => {
+//   createWindow();
+// });
 
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
-});
+// app.on('window-all-closed', function () {
+//   if (process.platform !== 'darwin') app.quit();
+// });
+
+console.log(path.join(__dirname, 'preload.js'));
 
 let config = {
   url: 'mongodb+srv://dbUser:Quadient1234@pro-services-test.a6ybx.mongodb.net/test',
