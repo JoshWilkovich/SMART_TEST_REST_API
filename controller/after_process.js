@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const main = require('../script');
+const main = require('../main');
 
 var afterProcess = function () {
   router.route('/').post(function (req, res) {
