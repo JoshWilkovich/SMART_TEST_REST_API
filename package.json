@@ -2,10 +2,10 @@
   "name": "test_api",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "json-server script.js"
+    "start": "electron ."
   },
   "author": "JJW",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "joi": "^17.4.2",
     "json-server": "^0.16.3",
     "mongodb": "^4.1.1"
+  },
+  "devDependencies": {
+    "electron": "^14.0.1"
   }
 }
