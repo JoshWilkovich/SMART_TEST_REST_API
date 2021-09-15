@@ -1,5 +1,7 @@
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 const express = require('express');
-const app = express();
+const apps = express();
 const port = process.env.port || 1337;
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
@@ -8,6 +10,27 @@ const address = require('./controller/addresses');
 const package = require('./controller/packages');
 const afterProcess = require('./controller/after_process');
 const afterVoid = require('./controller/after_void');
+
+function createWindow() {
+  console.log(path.join(__dirname, 'preload.js'));
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, './preload.js'),
+    },
+  });
+
+  win.loadFile('index.html');
+}
+
+app.whenReady().then(() => {
+  createWindow();
+});
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') app.quit();
+});
 
 let config = {
   url: 'mongodb+srv://dbUser:Quadient1234@pro-services-test.a6ybx.mongodb.net/test',
@@ -39,14 +62,14 @@ exports.package = {
   packageId: 'Order_Num', // Lookup Field - REQUIRED
 };
 
-app.use(bodyParser.json());
-app.use('/accounts', account());
-app.use('/addresses', address());
-app.use('/packages', package());
-app.use('/shipment', afterProcess());
-app.use('/void', afterVoid());
+apps.use(bodyParser.json());
+apps.use('/accounts', account());
+apps.use('/addresses', address());
+apps.use('/packages', package());
+apps.use('/shipment', afterProcess());
+apps.use('/void', afterVoid());
 
-app.listen(port, async function () {
+apps.listen(port, async function () {
   await MongoClient.connect(
     config.url,
     { useNewUrlParser: true },
