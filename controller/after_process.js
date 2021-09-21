@@ -4,7 +4,6 @@ const main = require('../main');
 
 var afterProcess = function () {
   router.route('/').post(function (req, res) {
-    console.log(req.body);
     db.collection(main.dataNames.shipment).insertMany(
       req.body,
       (error, result) => {

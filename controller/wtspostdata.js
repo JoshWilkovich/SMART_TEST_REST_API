@@ -4,6 +4,7 @@ const main = require('../main');
 
 var wtsPost = function () {
   router.route('/').post(function (req, res) {
+    console.log(req.body);
     db.collection(main.dataNames.wts).insertOne(req.body, (error, result) => {
       if (error) {
         return res.status(500).send(error);
