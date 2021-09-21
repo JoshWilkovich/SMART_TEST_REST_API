@@ -10,28 +10,7 @@ const address = require('./controller/addresses');
 const package = require('./controller/packages');
 const afterProcess = require('./controller/after_process');
 const afterVoid = require('./controller/after_void');
-
-// function createWindow() {
-//   const win = new BrowserWindow({
-//     width: 800,
-//     height: 600,
-//     webPreferences: {
-//       preload: path.join(__dirname, 'preload.js'),
-//     },
-//   });
-
-//   win.loadFile('index.html');
-// }
-
-// app.whenReady().then(() => {
-//   createWindow();
-// });
-
-// app.on('window-all-closed', function () {
-//   if (process.platform !== 'darwin') app.quit();
-// });
-
-console.log(path.join(__dirname, 'preload.js'));
+const wtsPost = require('./controller/wtspostdata');
 
 let config = {
   url: 'mongodb+srv://dbUser:Quadient1234@pro-services-test.a6ybx.mongodb.net/test',
@@ -45,6 +24,7 @@ exports.dataNames = {
   package: 'Packages',
   shipment: 'Shipments',
   void: 'Cancels',
+  wts: 'wts_test',
 };
 
 exports.account = {
@@ -69,6 +49,7 @@ apps.use('/addresses', address());
 apps.use('/packages', package());
 apps.use('/shipment', afterProcess());
 apps.use('/void', afterVoid());
+apps.use('/wtspost', wtsPost());
 
 apps.listen(port, async function () {
   await MongoClient.connect(
