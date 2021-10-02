@@ -1,5 +1,3 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
 const express = require('express');
 const apps = express();
 const port = process.env.port || 1337;
@@ -40,7 +38,7 @@ exports.address = {
 };
 
 exports.package = {
-  packageId: 'Order_Num', // Lookup Field - REQUIRED
+  packageId: 'Package_ID', // Lookup Field - REQUIRED
 };
 
 apps.use(bodyParser.json());
