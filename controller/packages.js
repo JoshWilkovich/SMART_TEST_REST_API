@@ -13,7 +13,7 @@ var packages = function () {
         if (error) {
           return res.status(500).send(error);
         }
-        res.send(result);
+        res.status(200).send(result);
       });
   });
   return router;
