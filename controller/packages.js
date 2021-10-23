@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const main = require('../main');
+const empty = {
+  isSuccess: false,
+  statusMessage: 'Shipment not found',
+};
 
 var packages = function () {
   router.route('/').get(function (req, res) {
@@ -13,7 +17,11 @@ var packages = function () {
         if (error) {
           return res.status(500).send(error);
         }
-        res.status(200).send(result);
+        if (result.length > 0) {
+          res.status(200).send(result);
+        } else {
+          res.status(200).send(empty);
+        }
       });
   });
   return router;

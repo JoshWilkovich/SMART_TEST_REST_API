@@ -38,7 +38,7 @@ exports.address = {
 };
 
 exports.package = {
-  packageId: 'Package_ID', // Lookup Field - REQUIRED
+  packageId: 'ShipmentId', // Lookup Field - REQUIRED
 };
 
 apps.use(bodyParser.json());
