@@ -4,11 +4,11 @@ const main = require('../main');
 
 var afterVoid = function () {
   router.route('/').post(function (req, res) {
-    console.log(req.body);
-    db.collection(main.dataNames.void).insertOne(req.body, (error, result) => {
+    db.collection(main.dataNames.void).insertMany(req.body, (error, result) => {
       if (error) {
         return res.status(500).send(error);
       }
+      result = { ...result, status: 200 };
       res.status(200).send(result);
     });
   });

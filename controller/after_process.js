@@ -10,6 +10,7 @@ var afterProcess = function () {
         if (error) {
           return res.status(500).send(error);
         }
+        result = { ...result, status: 200 };
         res.status(200).send(result);
       }
     );

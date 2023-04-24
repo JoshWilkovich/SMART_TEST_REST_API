@@ -8,6 +8,7 @@ const empty = {
 
 var packages = function () {
   router.route('/').get(function (req, res) {
+    console.log(req.query.val);
     let query = {
       [main.package.packageId]: { $regex: req.query.val, $options: 'i' },
     };

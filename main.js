@@ -1,6 +1,14 @@
 const express = require('express');
-const apps = express();
-const port = process.env.port || 1337;
+const app = express();
+const fs = require('fs');
+const http = require('http');
+const httpPort = process.env.port || 8080;
+const https = require('https');
+const httpsPort = process.env.port || 8443;
+// const privateKey = fs.readFileSync('sslcert/server.key', 'utf8');
+// const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+// const credentials = { key: privateKey, cert: certificate };
+
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const account = require('./controller/accounts');
@@ -8,7 +16,6 @@ const address = require('./controller/addresses');
 const package = require('./controller/packages');
 const afterProcess = require('./controller/after_process');
 const afterVoid = require('./controller/after_void');
-const wtsPost = require('./controller/wtspostdata');
 
 let config = {
   url: 'mongodb+srv://dbUser:Quadient1234@pro-services-test.a6ybx.mongodb.net/test',
@@ -22,7 +29,6 @@ exports.dataNames = {
   package: 'Packages',
   shipment: 'Shipments',
   void: 'Cancels',
-  wts: 'wts_test',
 };
 
 exports.account = {
@@ -38,21 +44,20 @@ exports.address = {
 };
 
 exports.package = {
-  packageId: 'ShipmentId', // Lookup Field - REQUIRED
+  packageId: 'Package_ID', // Lookup Field - REQUIRED
 };
 
-apps.use(bodyParser.json());
-apps.use('/accounts', account());
-apps.use('/addresses', address());
-apps.use('/packages', package());
-apps.use('/shipment', afterProcess());
-apps.use('/void', afterVoid());
-apps.use('/wtspost', wtsPost());
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(app);
+// var httpsServer = https.createServer(credentials, app);
 
-apps.listen(port, async function () {
+httpServer.listen(httpPort, mongoConnect(httpPort));
+httpsServer.listen(httpsPort, mongoConnect(httpsPort));
+
+async function mongoConnect(port) {
   await MongoClient.connect(
     config.url,
-    { useNewUrlParser: true },
+    { useNewUrlParser: true, useUnifiedTopology: true },
     (error, client) => {
       if (error) {
         throw error;
@@ -62,4 +67,11 @@ apps.listen(port, async function () {
     }
   );
   console.log(`Server runnning on Port:- ${port} Started at : ${new Date()}`);
-});
+}
+
+app.use(bodyParser.json());
+app.use('/accounts', account());
+app.use('/addresses', address());
+app.use('/packages', package());
+app.use('/shipment', afterProcess());
+app.use('/void', afterVoid());
