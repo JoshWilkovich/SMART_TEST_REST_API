@@ -9,6 +9,9 @@ const httpsPort = process.env.port || 8443;
 // const certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 // const credentials = { key: privateKey, cert: certificate };
 
+// Command to run this app
+// node main.js
+
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const account = require('./controller/accounts');
