@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const main = require('../main');
 
-var afterProcess = function () {
+var afterAdjust = function () {
   router.route('/').post(function (req, res) {
     console.log(req.body);
     res.status(200).send();
@@ -26,4 +26,4 @@ var afterProcess = function () {
 //   return router;
 // };
 
-module.exports = afterProcess;
+module.exports = afterAdjust;

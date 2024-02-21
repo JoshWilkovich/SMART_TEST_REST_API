@@ -7,21 +7,29 @@ var addreses = function () {
     let query = {
       [main.address.code]: { $regex: req.query.val, $options: 'i' },
     };
-    if (req.query.fld === main.address.companyName)
+    let sort = { [main.address.code]: 1 };
+    if (req.query.fld === main.address.companyName) {
       query = {
         [main.address.companyName]: { $regex: req.query.val, $options: 'i' },
       };
-    if (req.query.fld === main.address.attention)
+      sort = { [main.address.companyName]: 1 };
+    }
+    if (req.query.fld === main.address.attention) {
       query = {
         [main.address.attention]: { $regex: req.query.val, $options: 'i' },
       };
+      sort = { [main.address.attention]: 1 };
+    }
     db.collection(main.dataNames.address)
       .find(query)
+      .sort(sort)
       .toArray((error, result) => {
         if (error) {
           return res.status(500).send(error);
         }
-        res.send(result);
+        if (result.length > 0) {
+          res.status(200).send(result);
+        }
       });
   });
   return router;
